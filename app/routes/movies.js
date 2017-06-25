@@ -34,28 +34,50 @@ router.get('/:id', function(req, res) {
 
 })
 
-router.post('/', function( req, res) {
+router.delete('/:id', function(req, res) {
 
-  let movie = new Movie( req.body )
+  let id = req.params.id
 
-  // try to save
-  movie.save()
-    .then( ( id ) => {
+  let movie = new Movie()
 
-      return res.json({
-        id
-      })
-
+  movie.delete( id )
+  .then(( ) => {
+    return res.status( 200 ).json({
+      'message': 'Deleted with success'
     })
-    .catch( function(error) {
-      return res.json({
-        error
-      })
-    })
+  })
+  .catch( (error) => {
+    if(error == Movie.NOT_FOUND)
+      return res.status(Movie.NOT_FOUND).json( {
+        message: 'Resource not found'
+      } )
+    else
+      return res.status(Movie.SERVER_ERROR)
+  })
 
 })
 
-router.delete('/:id', function( req, res ) {
+router.put('/:id', function(req, res) {
+
+  let movie = new Movie()
+  movie.update( req.params.id, req.body )
+  .then(( ) => {
+    return res.status( 200 ).json({
+      'message': 'Updated with success'
+    })
+  })
+  .catch( (error) => {
+    if(error == Movie.NOT_FOUND)
+      return res.status(Movie.NOT_FOUND).json( {
+        message: 'Resource not found'
+      } )
+    else
+      return res.status(Movie.SERVER_ERROR)
+  })
+
+})
+
+router.post('/', function( req, res) {
 
   let movie = new Movie( req.body )
 
