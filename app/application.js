@@ -10,23 +10,12 @@ const bodyParser = require('body-parser')
 // application starup
 const app = express()
 
-const Movie = require('./entity/Movie')
+import Movie from './entity/Movie'
 
 // assign the bodyParser module
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// main route
-app.get('/', function(req, res) {
-
-  let movie = new Movie({
-
-  })
-
-  return res.send({
-    movie: movie
-  })
-
-})
+app.use( '/', require('./routes') )
 
 module.exports = app
