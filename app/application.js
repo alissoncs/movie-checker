@@ -18,4 +18,14 @@ app.use(bodyParser.json());
 
 app.use( '/', require('./routes') )
 
+app.use( '*', (req,res) => {
+  res.status(404).json({
+    message: 'Non existent route'
+  })
+} )
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).json({message: 'Something broke!'});
+})
+
 module.exports = app
