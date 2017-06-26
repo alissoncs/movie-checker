@@ -1,21 +1,33 @@
-
-
 export default class BaseModel {
 
   static get NOT_FOUND() {
     return 404;
+  }
+  static get VALIDATION_ERROR() {
+    return 400;
   }
 
   getTable() {
     return 'assign_table'
   }
 
+  // this is an example of validate method
+  validate( data ) {
+
+    const Joi = this.joi
+
+    const schema = {
+    };
+
+    const {error, value} = Joi.validate( data, schema)
+
+  }
+
   constructor( data , modules = {}) {
 
-    if(modules.queryBuilder)
-      this.qb = modules.queryBuilder
-    else
-      this.qb = require('squel')
+    this.qb = modules.qb ? modules.qb : require('squel')
+
+    this.joi = modules.joi ? modules.joi : require('joi')
 
     this.db = modules.db ? modules.db : require('../database')
 
@@ -28,6 +40,15 @@ export default class BaseModel {
 
     if(!data)
       data = this.data
+
+    const {error} = this.validate(data)
+
+    if(error) {
+      return Promise.reject( {
+        code: BaseModel.VALIDATION_ERROR,
+        errors: error.details
+      })
+    }
 
     let query = this.qb
     .insert()
@@ -82,7 +103,7 @@ export default class BaseModel {
         else if ( result.length > 0 )
           res( result[0] )
         else
-          rej( BaseModel.NOT_FOUND )
+          rej( {code: BaseModel.NOT_FOUND} )
 
       })
 
@@ -106,7 +127,7 @@ export default class BaseModel {
         else if(result.affectedRows > 0)
           res(  )
         else
-          rej( BaseModel.NOT_FOUND )
+          rej( {code: BaseModel.NOT_FOUND} )
 
 
       })
@@ -117,8 +138,19 @@ export default class BaseModel {
 
   update( id, data ) {
 
-    if(data.id)
-      data.id = id
+    if(!data)
+      data = this.data
+
+    const {error} = this.validate(data)
+
+    console.log('sjh', error)
+
+    if(error) {
+      return Promise.reject( {
+        code: BaseModel.VALIDATION_ERROR,
+        errors: error.details
+      })
+    }
 
     let query = this.qb
     .update()
@@ -128,13 +160,13 @@ export default class BaseModel {
 
     return new Promise( (res, rej) => {
       return this.db.query( query.toString(), (error, result) => {
-        
+
         if ( error )
-          rej(error)
+          rej()
         else if(result.affectedRows > 0)
           res(  )
         else
-          rej( BaseModel.NOT_FOUND )
+          rej( {code: BaseModel.NOT_FOUND} )
 
       })
 

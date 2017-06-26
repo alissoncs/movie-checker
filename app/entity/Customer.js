@@ -6,6 +6,19 @@ export default class Customer extends BaseModel {
     return 'customers'
   }
 
+  validate( data ) {
+
+    const Joi = this.joi
+
+    let schema = {
+      name: Joi.string().required(),
+      address: Joi.optional()
+    }
+
+    return Joi.validate( data, schema )
+
+  }
+
   save( data ) {
 
     if(!data)
@@ -13,7 +26,7 @@ export default class Customer extends BaseModel {
 
     return super.save( {
       name: data.name,
-      address: data.address
+      address: data.address ? data.address : null
     } )
 
   }
@@ -22,7 +35,7 @@ export default class Customer extends BaseModel {
 
     return super.update( id, {
       name: data.name,
-      address: data.address
+      address: data.address ? data.address : null
     })
 
   }

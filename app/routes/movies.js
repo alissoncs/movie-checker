@@ -1,5 +1,6 @@
 const router = require('express').Router()
 import Movie from '../entity/Movie'
+import ErrorHandler from '../util/ErrorHandler'
 
 router.get('/', function(req, res) {
 
@@ -23,13 +24,10 @@ router.get('/:id', function(req, res) {
   .then(( register ) => {
     return res.json( register )
   })
-  .catch( (error) => {
-    if(error == Movie.NOT_FOUND)
-      return res.status(Movie.NOT_FOUND).json( {
-        message: 'Resource not found'
-      } )
-    else
-      return res.status(Movie.SERVER_ERROR)
+  .catch( function(error) {
+    return res.json(
+      ErrorHandler( error, res )
+    )
   })
 
 })
@@ -46,19 +44,16 @@ router.delete('/:id', function(req, res) {
       'message': 'Deleted with success'
     })
   })
-  .catch( (error) => {
-    if(error == Movie.NOT_FOUND)
-      return res.status(Movie.NOT_FOUND).json( {
-        message: 'Resource not found'
-      } )
-    else
-      return res.status(Movie.SERVER_ERROR)
+  .catch( function(error) {
+    return res.json(
+      ErrorHandler( error, res )
+    )
   })
 
 })
 
 router.put('/:id', function(req, res) {
-
+  
   let movie = new Movie()
   movie.update( req.params.id, req.body )
   .then(( ) => {
@@ -66,13 +61,10 @@ router.put('/:id', function(req, res) {
       'message': 'Updated with success'
     })
   })
-  .catch( (error) => {
-    if(error == Movie.NOT_FOUND)
-      return res.status(Movie.NOT_FOUND).json( {
-        message: 'Resource not found'
-      } )
-    else
-      return res.status(Movie.SERVER_ERROR)
+  .catch( function(error) {
+    return res.json(
+      ErrorHandler( error, res )
+    )
   })
 
 })
@@ -91,9 +83,9 @@ router.post('/', function( req, res) {
 
     })
     .catch( function(error) {
-      return res.json({
-        error
-      })
+      return res.json(
+        ErrorHandler( error, res )
+      )
     })
 
 })

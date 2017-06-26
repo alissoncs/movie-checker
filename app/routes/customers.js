@@ -1,10 +1,11 @@
 const router = require('express').Router()
 import Customer from '../entity/Customer'
+import ErrorHandler from '../util/ErrorHandler'
 
 router.get('/', function(req, res) {
 
-  let Customer = new Customer()
-  Customer.fetchAll()
+  let customer = new Customer()
+  customer.fetchAll()
   .then( ( result ) => {
     return res.send(
       result
@@ -17,19 +18,16 @@ router.get('/:id', function(req, res) {
 
   let id = req.params.id
 
-  let Customer = new Customer()
+  let customer = new Customer()
 
-  Customer.fetchById( id )
+  customer.fetchById( id )
   .then(( register ) => {
     return res.json( register )
   })
-  .catch( (error) => {
-    if(error == Customer.NOT_FOUND)
-      return res.status(Customer.NOT_FOUND).json( {
-        message: 'Resource not found'
-      } )
-    else
-      return res.status(Customer.SERVER_ERROR)
+  .catch( function(error) {
+    return res.json(
+      ErrorHandler( error, res )
+    )
   })
 
 })
@@ -38,51 +36,45 @@ router.delete('/:id', function(req, res) {
 
   let id = req.params.id
 
-  let Customer = new Customer()
+  let customer = new Customer()
 
-  Customer.delete( id )
+  customer.delete( id )
   .then(( ) => {
     return res.status( 200 ).json({
       'message': 'Deleted with success'
     })
   })
-  .catch( (error) => {
-    if(error == Customer.NOT_FOUND)
-      return res.status(Customer.NOT_FOUND).json( {
-        message: 'Resource not found'
-      } )
-    else
-      return res.status(Customer.SERVER_ERROR)
+  .catch( function(error) {
+    return res.json(
+      ErrorHandler( error, res )
+    )
   })
 
 })
 
 router.put('/:id', function(req, res) {
 
-  let Customer = new Customer()
-  Customer.update( req.params.id, req.body )
+  let customer = new Customer()
+  customer.update( req.params.id, req.body )
   .then(( ) => {
     return res.status( 200 ).json({
       'message': 'Updated with success'
     })
   })
-  .catch( (error) => {
-    if(error == Customer.NOT_FOUND)
-      return res.status(Customer.NOT_FOUND).json( {
-        message: 'Resource not found'
-      } )
-    else
-      return res.status(Customer.SERVER_ERROR)
+  .catch( function(error) {
+    return res.json(
+      ErrorHandler( error, res )
+    )
   })
 
 })
 
 router.post('/', function( req, res) {
 
-  let Customer = new Customer( req.body )
+  let customer = new Customer( req.body )
 
   // try to save
-  Customer.save()
+  customer.save()
     .then( ( id ) => {
 
       return res.json({
@@ -91,9 +83,9 @@ router.post('/', function( req, res) {
 
     })
     .catch( function(error) {
-      return res.json({
-        error
-      })
+      return res.json(
+        ErrorHandler( error, res )
+      )
     })
 
 })
