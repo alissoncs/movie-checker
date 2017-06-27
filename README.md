@@ -12,8 +12,13 @@ $ # api ready at localhost:3000
 
 ## Authentication
 
-To authenticate you get the jwt token using this Endpoint
-POST to `/auth` with { name, password } _(plain text)_
+To authenticate you get the token using the endpoint POST `/auth` with a payload like this above:
+```
+{
+  "email": "stevejobs@apple.com",
+  "password": "the_big_apple"
+}
+```
 If checked, the API will return
 ```
 {
@@ -23,6 +28,17 @@ If checked, the API will return
 ```
 You must store the token in the front-end (cookie, localstorage, SharedPreferences...)
 After this, each request you must send the `Authorization` header filled by stored token! Enjoy!
+Check the next step to know how to create a new user
+
+## Creating a user
+POST to `/users` with payload above
+```
+{
+  "name": "Steve Jobs",
+  "email": "stevejobs@apple.com",
+  "password": "the_big_apple"
+}
+```
 
 ## Endpoints
 
