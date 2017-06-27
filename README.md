@@ -1,18 +1,19 @@
 # movie-checker
 
-To start this API
+To start this API:
+
 Rename `app/config.json.example` to `app/config.json` and check the database configs
-Run `dump.sql` inside your mysql database
+Run `dump.sql` into your mysql database
 
 ```
 $ npm install
 $ npm start
-$ # api ready at localhost:3000 
+$ # api ready at localhost:3000
 ```
 
 ## Authentication
 
-To authenticate you get the token using the endpoint POST `/auth` with a payload like this above:
+Retrieve the token using the endpoint POST `/auth` with this payload above:
 ```
 {
   "email": "stevejobs@apple.com",
@@ -27,7 +28,7 @@ If checked, the API will return
 }
 ```
 You must store the token in the front-end (cookie, localstorage, SharedPreferences...)
-After this, each request you must send the `Authorization` header filled by stored token! Enjoy!
+After this, each request must be sent containing the `Authorization` header filled by token!
 Check the next step to know how to create a new user
 
 ## Creating a user
