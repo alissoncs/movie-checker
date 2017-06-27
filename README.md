@@ -2,7 +2,7 @@
 
 To start this API
 Rename `app/config.json.example` to `app/config.json` and check the database configs
-
+Run `dump.sql`
 ```
 $ npm install
 $ npm start
