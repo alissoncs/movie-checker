@@ -1,10 +1,13 @@
 const router = require('express').Router()
 
+
+let authmd = require('../middlewares/authmd')
+
 // users endpoint
-router.use('/movies', require('./movies'))
-router.use('/rentings', require('./rentings'))
-router.use('/customers', require('./customers'))
+router.use('/movies', authmd, require('./movies'))
+router.use('/rentings', authmd, require('./rentings'))
+router.use('/customers', authmd, require('./customers'))
+router.use('/users', authmd, require('./users'))
 router.use('/auth', require('./authentication'))
-router.use('/users', require('./users'))
 
 module.exports = router

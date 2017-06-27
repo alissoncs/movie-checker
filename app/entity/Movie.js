@@ -42,11 +42,16 @@ export default class Movie extends BaseModel {
 
   fetchByTitle( title ) {
 
-    return fetchAll().then((data) => {
+    return this.fetchAll().then((data) => {
 
-      // filtro por nome
+      // filter by name
       data = data.filter((item) => {
-        return true
+
+        let current = item.title.toLowerCase()
+        title = title.toLowerCase()
+
+        return current.indexOf( title ) >= 0
+
       })
 
       return data

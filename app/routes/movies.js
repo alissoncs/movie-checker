@@ -53,7 +53,7 @@ router.delete('/:id', function(req, res) {
 })
 
 router.put('/:id', function(req, res) {
-  
+
   let movie = new Movie()
   movie.update( req.params.id, req.body )
   .then(( ) => {
@@ -64,6 +64,21 @@ router.put('/:id', function(req, res) {
   .catch( function(error) {
     return res.json(
       ErrorHandler( error, res )
+    )
+  })
+
+})
+
+// search by name
+router.get('/search/:title', ( req, res ) => {
+
+  let { title } = req.params
+
+  let movie = new Movie
+  movie.fetchByTitle( title )
+  .then( ( result ) => {
+    return res.send(
+      result
     )
   })
 

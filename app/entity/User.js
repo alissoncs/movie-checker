@@ -22,6 +22,41 @@ export default class User extends BaseModel {
 
   }
 
+
+  fetch( data ) {
+
+    return new Promise((res,rej) => {
+
+      if(!data.email) {
+
+        return rej({
+          code: 400,
+          message: 'email is required'
+        })
+
+      }
+      // validates weither exists customer_id and movie
+      let query = this.qb
+      .select()
+      .from(this.getTable())
+      .where( 'email = ?', [ data.email ])
+      .limit( 1 )
+
+      this.db.query( query.toString(), (error, result) => {
+
+        if(error) {
+          rej(error)
+        } else {
+          res( result.length > 0 ? result[0] : undefined )
+        }
+
+      });
+
+
+    })
+
+  }
+
   save( data ) {
 
     if(!data)
