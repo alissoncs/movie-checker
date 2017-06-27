@@ -62,11 +62,12 @@ export default class User extends BaseModel {
     if(!data)
       data = this.data
 
-    return super.save( {
-      name: data.name,
-      email: data.email,
-      password: md5( data.password )
-    } ).catch( err=> {
+
+    if(data.password)
+      data.password = md5(data.password)
+
+    return super.save( data )
+    .catch( err=> {
 
       if(err && err.code && err.code == 'ER_DUP_ENTRY') {
 
@@ -86,11 +87,10 @@ export default class User extends BaseModel {
 
   update( id, data) {
 
-    return super.update( id, {
-      name: data.name,
-      email: data.email,
-      password: md5( data.password )
-    })
+    if(data.password)
+      data.password = md5(data.password)
+
+    return super.update( id, data )
 
   }
 
