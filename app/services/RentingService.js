@@ -24,28 +24,19 @@ export default class RentingService {
     }
 
     let movie = new Movie
+    let customer = new Customer
+    let renting = new Renting
 
     // validates weither exists the movie
     return movie.fetchById( data.movie_id )
-    .then(() => {
-
-      // validates weither exists the customer
-      let customer = new Customer
-      customer.fetchById( data.customer_id )
-      .then(() => {
-
-
-        
-
-
-      }).catch(( err ) => {
-        throw err
-      })
-
-    }).catch( (err) => {
-      throw err
-    })
-
+    .then(
+      () => customer.fetchById( data.customer_id )
+    ).then(
+      () => renting.exists( data )
+    )
+    ).then(
+      () => renting.save( data )
+    )
 
   }
 

@@ -25,11 +25,37 @@ export default class Renting extends BaseModel {
     if(!data)
       data = this.data
 
-    return super.save( {
-      customer_id: data.customer_id,
-      movie_id: data.movie_id,
-      current: data.current && data.current == true ? 1 : 0
-    } )
+    const db = this.db
+
+    // create a transaction to prevent concurrence
+    return new Promise((res, rej) => {
+      db.beginTransaction(err => {
+        if(err) rej({
+          code:500
+        })
+        super.save( {
+          customer_id: data.customer_id,
+          movie_id: data.movie_id,
+          current: data.current && data.current == true ? 1 : 0
+        } ).then((id) => {
+          
+          db.commit((err) => {
+            res( id )
+          })
+
+        }).catch(() => {
+
+          db.rollback(() => {
+            rej({
+              code: 500,
+              message: 'Internal conflict, try to do this again'
+            })
+          })
+
+        })
+
+      })
+    })
 
   }
 

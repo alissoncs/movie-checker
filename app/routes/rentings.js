@@ -8,10 +8,9 @@ router.post('/', ( req, res ) => {
   let service = new RentingService
   service.makeRent( req.body )
   .then((ok) => {
-    res.json( {ok: true} )
+    res.status(201).json({'id': ok})
   })
   .catch((err) => {
-    console.log(err)
     res.json( ErrorHandler(err, res) )
   })
 
