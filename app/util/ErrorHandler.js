@@ -22,6 +22,11 @@ export default function ErrorHandler(error, res) {
       result.mapping = error.errors
   }
 
+  if(error.message) {
+    console.log(error.message)
+    result.message = error.message
+  }
+
   return result;
 
 }

@@ -20,6 +20,12 @@ export default class Renting extends BaseModel {
 
   }
 
+  fetchAll() {
+
+    return super.fetchAll()
+    
+  }
+
   save( data ) {
 
     if(!data)
@@ -38,7 +44,7 @@ export default class Renting extends BaseModel {
           movie_id: data.movie_id,
           current: data.current && data.current == true ? 1 : 0
         } ).then((id) => {
-          
+
           db.commit((err) => {
             res( id )
           })
@@ -65,6 +71,32 @@ export default class Renting extends BaseModel {
       customer_id: data.customer_id,
       movie_id: data.movie_id,
       current: data.current && data.current == true ? 1 : 0
+    })
+
+  }
+
+  exists( data ) {
+
+    return new Promise((res,rej) => {
+
+      // validates weither exists customer_id and movie
+      let query = this.qb
+      .select()
+      .from(this.getTable())
+      .where( 'customer_id = ?', [ data.customer_id ])
+      .where( 'movie_id = ?', [ data.movie_id ])
+
+      this.db.query( query.toString(), (error, result) => {
+
+        if(error) {
+          rej(error)
+        } else {
+          res( result && result.length > 0 )
+        }
+
+      });
+
+
     })
 
   }

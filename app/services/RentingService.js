@@ -27,16 +27,45 @@ export default class RentingService {
     let customer = new Customer
     let renting = new Renting
 
+
     // validates weither exists the movie
     return movie.fetchById( data.movie_id )
     .then(
-      () => customer.fetchById( data.customer_id )
-    ).then(
+      (res) => res
+    ).catch((err) => {
+      throw ({
+        code: Renting.VALIDATION_ERROR,
+        message: 'movie_id is not exists'
+      })
+    })
+    // customer id validation
+    .then( () => customer.fetchById( data.customer_id ))
+    .catch((err) => {
+      throw ({
+        code: Renting.VALIDATION_ERROR,
+        message: 'customer_id is not exists'
+      })
+    })
+    .then(
       () => renting.exists( data )
     )
-    ).then(
-      () => renting.save( data )
+    .then(
+      (rentingAlreadyExists) => {
+
+        if( rentingAlreadyExists ) {
+
+          throw ({
+            code: Renting.VALIDATION_ERROR,
+            message: 'Renting already exists'
+          })
+
+        }
+
+        return renting.save( data )
+
+      }
     )
+
 
   }
 
