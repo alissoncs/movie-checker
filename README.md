@@ -1,6 +1,8 @@
 # movie-checker
 
 To start this API
+Rename `app/config.json.example` to `app/config.json` and check the database configs
+
 ```
 $ npm install
 $ npm start
