@@ -49,4 +49,18 @@ router.post('/', (req, res) => {
 
 })
 
+// route to logout
+router.delete('/:token', (req, res) => {
+
+  let { token } = req.params
+
+  // save the token in a black list
+
+  res.json({
+    invalidated: true,
+    token
+  })
+
+})
+
 module.exports = router

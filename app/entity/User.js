@@ -78,6 +78,7 @@ export default class User extends BaseModel {
 
       }
       else {
+        console.log( err )
         throw err
       }
 
