@@ -8,11 +8,11 @@ export default function ErrorHandler(error, res) {
   }
 
   // assign the status code
-  if(error.code && res) {
+  if(error && error.code && res) {
     res.status( error.code )
   }
 
-  result.code = error.code ? error.code : null
+  result.code = error && error.code ? error.code : null
 
   if( result.code == BaseModel.NOT_FOUND ) {
     result.message = 'Resource not found'
@@ -22,8 +22,7 @@ export default function ErrorHandler(error, res) {
       result.mapping = error.errors
   }
 
-  if(error.message) {
-    console.log(error.message)
+  if(error && error.message) {
     result.message = error.message
   }
 

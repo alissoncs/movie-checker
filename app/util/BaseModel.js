@@ -60,7 +60,7 @@ export default class BaseModel {
       return this.db.query( query.toString(), (error, result, fields) => {
 
         if( error )
-          rej()
+          rej(error)
         else
           res( result.insertId )
 
