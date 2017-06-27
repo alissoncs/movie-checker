@@ -1,8 +1,9 @@
 const router = require('express').Router()
 import User from '../entity/User'
 import ErrorHandler from '../util/ErrorHandler'
+let authmd = require('../middlewares/authmd')
 
-router.put('/:id', function(req, res) {
+router.put('/:id', authmd, function(req, res) {
 
   let user = new User()
   user.update( req.params.id, req.body )

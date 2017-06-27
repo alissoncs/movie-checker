@@ -7,7 +7,7 @@ let authmd = require('../middlewares/authmd')
 router.use('/movies', authmd, require('./movies'))
 router.use('/rentings', authmd, require('./rentings'))
 router.use('/customers', authmd, require('./customers'))
-router.use('/users', authmd, require('./users'))
+router.use('/users', require('./users'))
 router.use('/auth', require('./authentication'))
 
 module.exports = router
