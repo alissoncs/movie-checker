@@ -11,6 +11,9 @@ $ npm start
 $ # api ready at localhost:3000
 ```
 
+## Running tests
+npm test
+
 ## Authentication
 
 Retrieve the token using the endpoint POST `/auth` with this payload above:
