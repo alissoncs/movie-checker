@@ -45,15 +45,15 @@ POST to `/users` with payload above
 
 Method | Endpoint | Description
 ------ | -------- | -----------
-GET | /movies | Retrive all movies registered
-GET | /movies/{id} | Retrive a movie
-GET | /movies/search/{name} | Retrive all movies filtered by name
+GET | /movies | Retrieve all movies registered
+GET | /movies/{id} | Retrieve a movie
+GET | /movies/search/{name} | Retrieve all movies filtered by name
 POST | /movies | Register a movie
 PUT | /movies/{id} | Update a movie by id (full payload)
 DELETE | /movies/{id} | Delete a movie by id
-GET | /customers | Retrive all customers registered
-GET | /customers/{id} | Retrive a customer
-GET | /customers/search/{name} | Retrive all customers filtered by name
+GET | /customers | Retrieve all customers registered
+GET | /customers/{id} | Retrieve a customer
+GET | /customers/search/{name} | Retrieve all customers filtered by name
 POST | /customers | Register a customer
 PUT | /customers/{id} | Update a customer by id (full payload)
 DELETE | /customers/{id} | Delete a customer by id
@@ -62,6 +62,6 @@ DELETE | /customers/{id} | Delete a customer by id
 
 Method | Endpoint | Description
 ------ | -------- | -----------
-GET | /renting | Retrive all renting movies (movie and customer)
+GET | /renting | Retrieve all renting movies (movie and customer)
 POST | /renting | Rent a movie
 DELETE | /renting/{rent_id} | Return a movie
