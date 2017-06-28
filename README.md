@@ -62,6 +62,6 @@ DELETE | /customers/{id} | Delete a customer by id
 
 Method | Endpoint | Description
 ------ | -------- | -----------
-GET | /renting | Retrieve all renting movies (movie and customer)
-POST | /renting | Rent a movie
-DELETE | /renting/{rent_id} | Return a movie
+GET | /rentings | Retrieve all renting movies (movie and customer)
+POST | /rentings | Rent a movie
+DELETE | /rentings/{rent_id} | Return a movie
